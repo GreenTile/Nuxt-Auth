@@ -8,7 +8,7 @@ module.exports = {
 	// Plugins
 	registrations: [
 	  '@bakjs/mongo',
-	  // '@bakjs/auth'
+	  '@bakjs/auth'
 	],
   
 	// Mongo, lkm
