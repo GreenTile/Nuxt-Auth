@@ -6,4 +6,5 @@ class UserController extends Controller {
 	init() {
 
 	}
+
 }
