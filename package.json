@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "api": "cross-env PORT=3000 SUPPRESS_NO_CONFIG_WARNING=1 nodemon node_modules/bak/bin/bak start api",
+    "api:start": "bak start api",
+    "app": "cross-env PORT=3001 nuxt dev -c app/nuxt.config.js",
+    "app:build": "nuxt build -c app/nuxt.config.js",
+    "app:start": "nuxt start -c app/nuxt.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohammadMDSA/Nuxt-Auth.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohammadMDSA/Nuxt-Auth/issues"
+  },
+  "homepage": "https://github.com/MohammadMDSA/Nuxt-Auth#readme",
+  "dependencies": {
+    "@bakjs/auth": "^3.0.3",
+    "@bakjs/mongo": "^2.0.4",
+    "@nuxtjs/auth": "^3.4.1",
+    "@nuxtjs/axios": "^4.5.2",
+    "@nuxtjs/proxy": "^1.1.3",
+    "@nuxtjs/pwa": "^2.0.5",
+    "bak": "^3.0.5",
+    "cross-env": "^5.1.3",
+    "crossenv": "^0.0.2-security",
+    "nodemon": "^1.14.10",
+    "nuxt": "1.1.1"
+  }
+}
