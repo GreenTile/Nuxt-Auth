@@ -26,8 +26,10 @@ const store = () => new Vuex.Store({
 
 		async login({ commit }, { username, password }) {
 			try {
-				const { data } = await axios.post('/api/login', { username, password })
-				commit('SET_USER', data)
+				const { token } = await this.$axios.$post('/api/auth/login', { username, password })
+				if(!token)
+					throw new Error('Bad credentials');
+				commit('SET_USER', token)
 			} catch (error) {
 				if (error.response && error.response.status === 401) {
 					throw new Error('Bad credentials')
@@ -37,9 +39,13 @@ const store = () => new Vuex.Store({
 		},
 		
 		async logout({ commit }) {
-			await axios.post('/api/logout')
+			await this.$axios.$post('/api/auth/logout')
 			commit('SET_USER', null)
 		}
+	},
+
+	getters: {
+		isLogedIn: state => state.authUser !== null,
 	}
 });
 

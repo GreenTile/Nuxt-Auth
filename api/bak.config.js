@@ -2,7 +2,7 @@ module.exports = {
 	// Routes
 	prefix: '/api',
 	routes: [
-	  './controllers/user'
+	  './controllers/add'
 	],
   
 	// Plugins
@@ -14,12 +14,13 @@ module.exports = {
 	// Mongo, lkm
 	mongo: {
 	  connections: {
-		default: { uri: 'mongodb://localhost/test' }
+		default: { uri: 'mongodb://localhost/usr' }
 	  }
 	},
   
-	  // auth: {
-	  //   secret: "ddfdfkdofdkfo343"
-	  // }
+	  auth: {
+			secret: "SECRET_MD",
+			user_model: require('./models/user')
+		},
   }
   

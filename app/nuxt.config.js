@@ -12,9 +12,12 @@ module.exports = {
     '@nuxtjs/auth',
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    'bootstrap-vue/nuxt'
   ],
 
-  plugins: [],
+  plugins: [
+    './plugins/bootstrap'
+  ],
 
   manifest: {
     lang: 'en',
