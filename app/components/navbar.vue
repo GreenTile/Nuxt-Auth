@@ -27,7 +27,7 @@
 
 			<b-navbar-nav v-else class="ml-auto">
 				<b-nav-item href="#">Login</b-nav-item>
-				<b-nav-item href="#" >Sign Up</b-nav-item>
+				<b-nav-item href="/signUp" >Sign Up</b-nav-item>
 			</b-navbar-nav>
 
 		</b-collapse>

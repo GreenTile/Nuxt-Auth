@@ -2,7 +2,12 @@ module.exports = {
 	// Routes
 	prefix: '/api',
 	routes: [
-	  './controllers/add'
+		{
+			prefix: '/auth',
+			routes: [
+				'./controllers/signUp'
+			]
+		}
 	],
   
 	// Plugins
