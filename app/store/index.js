@@ -26,7 +26,8 @@ const store = () => new Vuex.Store({
 
 		async login({ commit }, { username, password }) {
 			try {
-				const { token } = await this.$axios.$post('/api/auth/login', { username, password })
+				const { token } = await this.$axios.$post('auth/login', { username, password })
+				console.log(token + ' from dsfsdfdsf')
 				if(!token)
 					throw new Error('Bad credentials');
 				commit('SET_USER', token)
@@ -39,7 +40,7 @@ const store = () => new Vuex.Store({
 		},
 		
 		async logout({ commit }) {
-			await this.$axios.$post('/api/auth/logout')
+			await this.$axios.$post('auth/logout')
 			commit('SET_USER', null)
 		}
 	},

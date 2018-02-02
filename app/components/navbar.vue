@@ -13,14 +13,14 @@
 			</b-navbar-nav>
 
 			<!-- Right aligned nav items -->
-			<b-navbar-nav v-if="isLogedIn" class="ml-auto">
-				<b-nav-item-dropdown offset="20" class="dropdown-margin" size="lg" left text="User">
+			<b-navbar-nav v-if="isLogedIn" class="ml-auto" no-caret>
+				<b-nav-item-dropdown right offset="20" class="dropdown-margin m-2" size="lg" left text="User">
 					<!-- Using button-content slot -->
-					<template slot="button-content">
-						<b-img class="full-height" rounded="circle" src="http://www.spurlock.illinois.edu/img/people/generic_800.png"></b-img>
+					<template class="icon-container" slot="button-content">
+						<b-img class="full-height" rounded="circle" src="http://www.spurlock.illinois.edu/img/people/generic_800.png" fluid></b-img>
 						<span></span>
 					</template>
-					<b-dropdown-item href="#">Profile</b-dropdown-item>
+					<b-dropdown-item>Profile</b-dropdown-item>
 					<b-dropdown-item href="#">Signout</b-dropdown-item>
 				</b-nav-item-dropdown>
 			</b-navbar-nav>
@@ -53,8 +53,16 @@ export default {
 <style scoped>
 .full-height {
 	position: absolute;
-	/* height: 100%; */
-	width: 100%;
+	height: auto;
+	max-height: 100%;
+}
+
+.icon-container {
+	position: absolute;
+	height: auto;
+	max-height: 100%;
+	float: inherit;
+	width: auto;
 }
 
 .dropdown-margin {
