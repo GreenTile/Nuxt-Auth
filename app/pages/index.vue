@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<navbar></navbar>
 		<form @submit.prevent="send" action="">
 			<input type="text" v-model="username"/>
 			<input type="password" v-model="password"/>
@@ -35,9 +34,6 @@ export default {
 			this.username = '';
 			this.password = '';
 		}
-	},
-	components: {
-		Navbar
 	}
 }
 </script>

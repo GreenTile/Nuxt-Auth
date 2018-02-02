@@ -5,7 +5,6 @@ const { User } = require('../models');
 class UserController extends Controller {
 	init() {
 		this.defaults.auth = false;
-		// this.get('/u', this.addUser);
 		this.post('/auth/signup', this.addUser);
 	}
 
