@@ -18,6 +18,27 @@
 				</b-form-input>
 			</b-form-group>
 
+			<b-form-group id="passwordGroup"
+					label="Password"
+					:state="passwordState"
+					label-for="passwordInput">
+				<b-form-input id="passwordInput"
+						type="password"
+						v-model="form.password"
+						required
+						:state="passwordState"
+						placeholder="Enter password">
+				</b-form-input>
+				<b-form-input id="reenteredPasswordInput"
+						class="mt-1"
+						type="password"
+						v-model="reenteredPass"
+						required
+						:state="passwordState"
+						placeholder="Reenter password">
+				</b-form-input>
+			</b-form-group>
+
 			<b-form-group id="nameGroup"
 					label="Your Name:"
 					label-for="nameInput"
@@ -66,6 +87,7 @@ export default {
 			form: {
 				email: '',
 				username: '',
+				password: '',
 				name: ''
 			}
 		};
@@ -143,5 +165,7 @@ export default {
 </script>
 
 <style scoped>
-
+	input {
+		margin-left: 0.5rem;
+	}
 </style>
