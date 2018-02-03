@@ -21,11 +21,14 @@
 			<b-form-group id="passwordGroup"
 					label="Password"
 					:state="passwordState"
+					:valid-feedback="passwordValidFeedback"
+					:invalid-feedback="passwordInvalidFeedback"
 					label-for="passwordInput">
 				<b-form-input id="passwordInput"
 						type="password"
 						v-model="form.password"
 						required
+						@change="computePasswordState"
 						:state="passwordState"
 						placeholder="Enter password">
 				</b-form-input>
@@ -34,6 +37,7 @@
 						type="password"
 						v-model="reenteredPass"
 						required
+						@change="computePasswordState"
 						:state="passwordState"
 						placeholder="Reenter password">
 				</b-form-input>
@@ -75,97 +79,161 @@
 </template>
 
 <script>
-
 export default {
-	data() {
-		return {
-			emailState: '',
-			usernameState: '',
-			passwordState: '',
-			nameState: '',
-			reenteredPass: '',
-			form: {
-				email: '',
-				username: '',
-				password: '',
-				name: ''
-			}
-		};
-	},
-	methods: {
-		onReset() {
-			this.form.email = this.form.username = this.form.name
-		},
-		onSubmit() {},
-		async computeEmailState() {
-			this.emailState = '';
-			if (this.form.email.length == 0) {
-				this.emailState = false;
-				return ;
-			}
+  data() {
+    return {
+      emailState: "",
+      usernameState: "",
+      passwordState: "",
+      nameState: "",
+      reenteredPass: "",
+      form: {
+        email: "",
+        username: "",
+        password: "",
+        name: ""
+      }
+    };
+  },
+  methods: {
+    onReset() {
+      this.form.email = this.form.username = this.form.name;
+    },
+    onSubmit() {},
+    async computeEmailState() {
+      this.emailState = "";
+      if (this.form.email.length == 0) {
+        this.emailState = false;
+        return;
+      }
 
-			let x = this.form.email;
-			let atpos = x.indexOf("@");
-			let dotpos = x.lastIndexOf(".");
-			if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
-				this.emailState = false;
-				return;
-			}
+      let x = this.form.email;
+      let atpos = x.indexOf("@");
+      let dotpos = x.lastIndexOf(".");
+      if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+        this.emailState = false;
+        return;
+      }
 
-			let res = await this.$axios.$post("auth/signup/check", {
-				email: this.form.email
-			});
+      let res = await this.$axios.$post("auth/signup/check", {
+        email: this.form.email
+      });
 
-			this.emailState = res;
-		},
-		async computeUsernameState() {
-			this.usernameState = '';
-			if(this.form.username.length < 6) {
-				this.usernameState = false;
-				return;
-			}
+      this.emailState = res;
+    },
+    async computeUsernameState() {
+      this.usernameState = "";
+      if (this.form.username.length < 6) {
+        this.usernameState = false;
+        return;
+      }
 
-			let res = await this.$axios.$post("auth/signup/check", {
-				username: this.form.username
-			});
-			this.usernameState = res;
-		}
-	},
-	computed: {
-		isLogedIn() {
-			return this.$store.getters.isLogedIn;
-		},
-		emailInvalidFeedback() {
-			if(this.form.email.length == 0) {
-				return 'Enter you email address!';
-			}
+      let res = await this.$axios.$post("auth/signup/check", {
+        username: this.form.username
+      });
+      this.usernameState = res;
+    },
+    computePasswordState() {
+      this.passwordState = "";
 
-			var x = this.form.email;
-			var atpos = x.indexOf("@");
-			var dotpos = x.lastIndexOf(".");
-			if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
-				return 'Email address is incorect!';
-			}
-			return 'This email address is already registered!';
-		},
-		emailValidFeedback() {
-			return 'This email address is available!';
-		},
-		usernameInvalidFeedback() {
-			if(this.form.username.length < 6) {
-				return 'Username is too short!';
-			}
-			return 'This username is already taken!';
-		},
-		usernameValiFeedback() {
-			return 'This username is available';
-		}
-	}
+      if (this.form.password != this.reenteredPass) {
+        this.passwordState = false;
+        return;
+      }
+
+      if (this.form.password.length == 0) {
+        this.passwordState = false;
+        return;
+      }
+      var re = /^\w+$/;
+      if (this.form.password.length < 6) {
+		console.log('= /^\w+$/')
+        this.passwordState = false;
+        return;
+      }
+      re = /[0-9]/;
+      if (!re.test(this.form.password)) {
+		console.log('0-9]/')
+        this.passwordState = false;
+        return;
+      }
+      re = /[a-z]/;
+      if (!re.test(this.form.password)) {
+		console.log('a-z]/')
+        this.passwordState = false;
+        return;
+      }
+      re = /[A-Z]/;
+      if (!re.test(this.form.password)) {
+		console.log('A-Z]/')
+        this.passwordState = false;
+        return;
+      }
+      this.passwordState = true;
+    }
+  },
+  computed: {
+    isLogedIn() {
+      return this.$store.getters.isLogedIn;
+    },
+    emailInvalidFeedback() {
+      if (this.form.email.length == 0) {
+        return "Enter you email address!";
+      }
+
+      var x = this.form.email;
+      var atpos = x.indexOf("@");
+      var dotpos = x.lastIndexOf(".");
+      if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+        return "Email address is incorect!";
+      }
+      return "This email address is already registered!";
+    },
+    emailValidFeedback() {
+      return "This email address is available!";
+    },
+    usernameInvalidFeedback() {
+      if (this.form.username.length < 6) {
+        return "Username is too short!";
+      }
+      return "This username is already taken!";
+    },
+    usernameValiFeedback() {
+      return "This username is available";
+    },
+    passwordValidFeedback() {
+      return "";
+    },
+    passwordInvalidFeedback() {
+      if (this.form.password != this.reenteredPass) {
+        return "Passwords don't match!";
+      }
+      if (this.form.password.length == 0) {
+        return "Please enter your password!";
+      }
+      var re = /^\w+$/;
+      if (this.form.password.length < 6) {
+        return "Password is too short";
+      }
+      re = /[0-9]/;
+      if (!re.test(this.form.password)) {
+        return "Password must contain at least on digit!";
+      }
+      re = /[a-z]/;
+      if (!re.test(this.form.password)) {
+        return "Password must contain at least one lowercase letter!";
+      }
+      re = /[A-Z]/;
+      if (!re.test(this.form.password)) {
+        return "Password must contain at least one uppercase letter!";
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-	input {
-		margin-left: 0.5rem;
-	}
+input {
+  margin-left: 0.5rem;
+}
 </style>
