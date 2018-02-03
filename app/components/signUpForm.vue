@@ -101,7 +101,15 @@ export default {
   },
   methods: {
     onReset() {
-      this.form.email = this.form.username = this.form.name;
+      this.emailState = "";
+      this.usernameState = "";
+      this.passwordState = "";
+      this.nameState = "";
+      this.reenteredPass = "";
+      this.form.email = "";
+      this.form.username = "";
+      this.form.password = "";
+      this.form.name = "";
     },
     onSubmit() {},
     async computeEmailState() {
