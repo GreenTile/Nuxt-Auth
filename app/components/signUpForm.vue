@@ -46,11 +46,14 @@
 			<b-form-group id="nameGroup"
 					label="Your Name:"
 					label-for="nameInput"
+					:invalid-feedback="nameInvalidFeedback"
+					:valid-feedback="nameValidFeedback"
 					:state="nameState">
 				<b-form-input id="nameInput"
 						type="text"
-						v-model="form.name"
+						v-model.trim="form.name"
 						required
+						@change="computeNameState"
 						:state="nameState"
 						placeholder="Enter name">
 				</b-form-input>
@@ -67,6 +70,7 @@
 						type="email"
 						v-model="form.email"
 						@change="computeEmailState"
+						:state="emailState"
 						required
 						placeholder="Enter email">
 				</b-form-input>
@@ -147,29 +151,36 @@ export default {
       }
       var re = /^\w+$/;
       if (this.form.password.length < 6) {
-		console.log('= /^\w+$/')
+        console.log("= /^w+$/");
         this.passwordState = false;
         return;
       }
       re = /[0-9]/;
       if (!re.test(this.form.password)) {
-		console.log('0-9]/')
+        console.log("0-9]/");
         this.passwordState = false;
         return;
       }
       re = /[a-z]/;
       if (!re.test(this.form.password)) {
-		console.log('a-z]/')
+        console.log("a-z]/");
         this.passwordState = false;
         return;
       }
       re = /[A-Z]/;
       if (!re.test(this.form.password)) {
-		console.log('A-Z]/')
+        console.log("A-Z]/");
         this.passwordState = false;
         return;
       }
       this.passwordState = true;
+    },
+    computeNameState() {
+      if (this.form.name.length < 5) {
+        this.nameState = false;
+      } else {
+        this.nameState = true;
+      }
     }
   },
   computed: {
@@ -227,6 +238,12 @@ export default {
       if (!re.test(this.form.password)) {
         return "Password must contain at least one uppercase letter!";
       }
+    },
+    nameValidFeedback() {
+      return "";
+    },
+    nameInvalidFeedback() {
+      return "You name is too short!";
     }
   }
 };
