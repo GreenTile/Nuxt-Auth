@@ -2,6 +2,35 @@
 	<b-container class="mt-4">
 		<b-form @submit="onSubmit" @reset="onReset" v-if="!isLogedIn">
 
+			<b-form-group id="usernameGroup"
+					label="Username:"
+					:state="usernameState"
+					:invalid-feedback="usernameInvalidFeedback"
+					:valid-feedback="usernameValiFeedback"
+					label-for="usernameInput">
+				<b-form-input id="usernameInput"
+						type="text"
+						v-model="form.username"
+						@change="computeUsernameState"
+						required
+						:state="usernameState"
+						placeholder="Enter username">
+				</b-form-input>
+			</b-form-group>
+
+			<b-form-group id="nameGroup"
+					label="Your Name:"
+					label-for="nameInput"
+					:state="nameState">
+				<b-form-input id="nameInput"
+						type="text"
+						v-model="form.name"
+						required
+						:state="nameState"
+						placeholder="Enter name">
+				</b-form-input>
+			</b-form-group>
+
 			<b-form-group id="emailGroup"
 					label="Email address:"
 					label-for="emailInput"
@@ -18,40 +47,8 @@
 				</b-form-input>
 			</b-form-group>
 
-			<b-form-group id="usernameGroup"
-					label="Username:"
-					:state="usernameState"
-					:invalid-feedback="usernameInvalidFeedback"
-					:valid-feedback="usernameValiFeedback"
-					label-for="usernameInput">
-				<b-form-input id="usernameInput"
-						type="text"
-						v-model="form.username"
-						@change="computeUsernameState"
-						required
-						placeholder="Enter username">
-				</b-form-input>
-			</b-form-group>
-
-			<b-form-group id="exampleInputGroup2"
-					label="Your Name:"
-					label-for="exampleInput2">
-				<b-form-input id="exampleInput2"
-						type="text"
-						v-model="form.name"
-						required
-						placeholder="Enter name">
-				</b-form-input>
-			</b-form-group>
-
-			<b-form-group id="exampleGroup4">
-				<b-form-checkbox-group v-model="form.checked" id="exampleChecks">
-					<b-form-checkbox value="me">Check me out</b-form-checkbox>
-					<b-form-checkbox value="that">Check that out</b-form-checkbox>
-				</b-form-checkbox-group>
-			</b-form-group>
 			<b-button type="submit" variant="primary">Submit</b-button>
-			<b-button type="reset" variant="danger">Reset</b-button>
+			<b-button class="ml-2" type="reset" variant="danger">Reset</b-button>
 		</b-form>
 	</b-container>
 </template>
@@ -63,17 +60,23 @@ export default {
 		return {
 			emailState: '',
 			usernameState: '',
+			passwordState: '',
+			nameState: '',
+			reenteredPass: '',
 			form: {
 				email: '',
-				username: ''
+				username: '',
+				name: ''
 			}
 		};
 	},
 	methods: {
-		onReset() {},
+		onReset() {
+			this.form.email = this.form.username = this.form.name
+		},
 		onSubmit() {},
 		async computeEmailState() {
-			this.emailState = false;
+			this.emailState = '';
 			if (this.form.email.length == 0) {
 				this.emailState = false;
 				return ;
@@ -94,7 +97,12 @@ export default {
 			this.emailState = res;
 		},
 		async computeUsernameState() {
-			this.usernameState = false;
+			this.usernameState = '';
+			if(this.form.username.length < 6) {
+				this.usernameState = false;
+				return;
+			}
+
 			let res = await this.$axios.$post("auth/signup/check", {
 				username: this.form.username
 			});
@@ -122,6 +130,9 @@ export default {
 			return 'This email address is available!';
 		},
 		usernameInvalidFeedback() {
+			if(this.form.username.length < 6) {
+				return 'Username is too short!';
+			}
 			return 'This username is already taken!';
 		},
 		usernameValiFeedback() {
