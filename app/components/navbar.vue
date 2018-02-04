@@ -13,7 +13,7 @@
 			</b-navbar-nav>
 
 			<!-- Right aligned nav items -->
-			<b-navbar-nav v-if="true" class="ml-auto" no-caret>
+			<b-navbar-nav v-if="isLogedIn" class="ml-auto" no-caret>
 				<b-nav-item-dropdown right offset="20" class="dropdown-margin m-2" size="lg" left text="User" no-caret>
 					<!-- Using button-content slot -->
 					<template class="icon-container" slot="button-content">

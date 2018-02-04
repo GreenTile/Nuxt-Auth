@@ -10,18 +10,18 @@ require('whatwg-fetch');
 const store = () => new Vuex.Store({
 	state: {
 		authUser: null,
-
 	},
 
 	mutations: {
 		SET_USER(state, user) {
 			state.authUser = user
+			console.log(user)
 		},
 
 		SET_TOKEN(state, token) {
 			if(!token)
-				return Cookies.remove('token');
-			Cookies.set('token', token, {expires: 1/48});
+				return Cookies.removeItem('token');
+			Cookies.setItem('token', token, {expires: 1/48});
 		}
 	},
 
@@ -33,12 +33,14 @@ const store = () => new Vuex.Store({
 		// },
 
 
-		async login({ commit }, { username, password }) {
+		async login({ commit, dispatch }, { username, password }) {
 			try {
 				const { token } = await this.$axios.$post('auth/login', { username, password })
 				if(!token)
 					throw new Error('Bad credentials');
-				commit('SET_USER', token)
+				commit('SET_TOKEN', token)
+				
+				dispatch('fetch')
 			} catch (error) {
 				if (error.response && error.response.status === 401) {
 					throw new Error('Bad credentials')
@@ -46,10 +48,23 @@ const store = () => new Vuex.Store({
 				throw error
 			}
 		},
+
+		async fetch({ commit }) {
+			try {
+				let { user } = (await this.$axios.get('auth/user')).data
+				commit('SET_USER', user)
+			} catch (error) {
+				/*
+				** Handles unauthrized attempt
+				*/
+				// TODO 
+				dispatch('logout', { $axios }) // if data not found just log out destory user data
+			}
+		},
 		
 		async logout({ commit }) {
 			await this.$axios.$post('auth/logout')
-			commit('SET_USER', null)
+			commit('SET_TOKEN')
 		},
 
 
