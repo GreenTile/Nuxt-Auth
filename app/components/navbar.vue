@@ -13,11 +13,11 @@
 			</b-navbar-nav>
 
 			<!-- Right aligned nav items -->
-			<b-navbar-nav v-if="isLogedIn" class="ml-auto" no-caret>
-				<b-nav-item-dropdown right offset="20" class="dropdown-margin m-2" size="lg" left text="User">
+			<b-navbar-nav v-if="true" class="ml-auto" no-caret>
+				<b-nav-item-dropdown right offset="20" class="dropdown-margin m-2" size="lg" left text="User" no-caret>
 					<!-- Using button-content slot -->
 					<template class="icon-container" slot="button-content">
-						<b-img class="full-height" rounded="circle" src="http://www.spurlock.illinois.edu/img/people/generic_800.png" fluid></b-img>
+						<img class="full-height m-1 rounded-circle"  src="~/assets/propic.png">
 						<span></span>
 					</template>
 					<b-dropdown-item>Profile</b-dropdown-item>

@@ -1,5 +1,11 @@
 <template>
 	<b-container class="mt-4">
+		<!-- <b-alert variant="danger"
+			dismissible
+			:show="showDismissibleAlert">
+			Signup faild!
+		</b-alert> -->
+
 		<b-form @submit="onSubmit" @reset="onReset" v-if="!isLogedIn">
 
 			<b-form-group id="usernameGroup"
@@ -111,7 +117,15 @@ export default {
       this.form.password = "";
       this.form.name = "";
     },
-    onSubmit() {},
+    onSubmit() {
+		this.computePasswordState();
+		this.computeNameState();
+		this.computeEmailState();
+		this.computeUsernameState();
+		if(!(this.emailState && this.usernameState && this.passwordState && this.nameState))
+			return;
+		let resutl = this.$axios.$post('auth/signup', this.form);
+	},
     async computeEmailState() {
       this.emailState = "";
       if (this.form.email.length == 0) {
